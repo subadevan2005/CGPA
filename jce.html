@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JCE CGPA Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>JCE CGPA Calculator (2023-2027 Batch)</h2>
+        
+        <label for="semester">Select Semester:</label>
+        <select id="semester" onchange="loadSubjects()">
+            <option value="semester1">Semester 1</option>
+            <option value="semester2">Semester 2</option>
+        </select>
+
+        <table id="subjectTable">
+            <tr>
+                <th>Subject</th>
+                <th>Grade</th>
+                <th>Credits</th>
+            </tr>
+        </table>
+
+        <button onclick="calculateCGPA()">Calculate CGPA</button>
+        <h3>Your CGPA: <span id="cgpaResult">0</span></h3>
+    </div>
+    
+    <footer>
+        Developed by <strong>Subadevan C</strong> | 
+        <a href="https://www.linkedin.com/in/subadevan" target="_blank">LinkedIn</a>
+    </footer>
+
+    <script>
+        // Predefined subjects for Jce (2023-2027 Batch)
+        const jecSubjects = {
+            semester1: [
+                { name: "Programming in C", credits: 4 },
+                { name: "Engineering Chemistry", credits: 3 },
+                { name: "Basic Eng (Civil & Mech)", credits: 3 },
+                { name: "Heritage Of Tamils", credits: 1 },
+                { name: "Basic Engg Laboratory", credits: 1 },
+                { name: "English For Communicative Competence", credits: 3 },
+                { name: "Matrices And Calculus", credits: 3 },
+                { name: "Engineering Physics And Chemistry Laboratory", credits: 1 },
+                { name: "Engineering Physics I", credits: 3 }
+            ],
+            semester2: [
+                { name: "English for Science and Technology", credits: 4 },
+                { name: "Tamils and Technology", credits: 1 },
+                { name: "Statistics for Engineers", credits: 4 },
+                { name: "Engineering Physics 2", credits: 3 },
+                { name: "Environmental Science and Sustainability", credits: 2 },
+                { name: "Engineering Graphics", credits: 4 },
+                { name: "Python Programming", credits: 3 },
+                { name: "Engineering Physics and Environmental Science Laboratory", credits: 2 },
+                { name: "Python Programming Laboratory", credits: 4 },
+                { name: "Gaming and Crafts studio", credits: 4 }
+            ]
+        };
+
+        // Function to load subjects based on selected semester
+        function loadSubjects() {
+            let semester = document.getElementById("semester").value;
+            let table = document.getElementById("subjectTable");
+
+            // Reset table
+            table.innerHTML = `
+                <tr>
+                    <th>Subject</th>
+                    <th>Grade</th>
+                    <th>Credits</th>
+                </tr>
+            `;
+
+            // Populate subjects
+            jecSubjects[semester].forEach((subject, index) => {
+                let row = table.insertRow();
+                row.innerHTML = `
+                    <td>${subject.name}</td>
+                    <td>
+                        <select class="grade">
+                            <option value="10">O</option>
+                            <option value="9">A+</option>
+                            <option value="8">A</option>
+                            <option value="7">B+</option>
+                            <option value="6">B</option>
+                            <option value="5">C</option>
+                            <option value="0">U</option>
+                        </select>
+                    </td>
+                    <td>${subject.credits}</td>
+                `;
+            });
+        }
+
+        // Function to calculate CGPA
+        function calculateCGPA() {
+            let grades = document.getElementsByClassName("grade");
+            let credits = document.getElementById("subjectTable").getElementsByTagName("td");
+            let totalGradePoints = 0, totalCredits = 0;
+
+            for (let i = 0; i < grades.length; i++) {
+                let grade = parseFloat(grades[i].value);
+                let credit = parseFloat(credits[i * 3 + 2].innerText);
+
+                totalGradePoints += grade * credit;
+                totalCredits += credit;
+            }
+
+            let cgpa = (totalGradePoints / totalCredits).toFixed(2);
+            document.getElementById("cgpaResult").innerText = cgpa;
+        }
+
+        // Load default semester (Semester 1) on page load
+        window.onload = loadSubjects;
+    </script>
+</body>
+</html>
