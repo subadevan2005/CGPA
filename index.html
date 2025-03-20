@@ -4,43 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CGPA Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 50%;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-            border-collapse: collapse;
-            padding: 10px;
-            text-align: center;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px;
-            background: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #218838;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -48,6 +12,7 @@
         <label for="numSubjects">Enter Number of Subjects:</label>
         <input type="number" id="numSubjects" min="1" max="20" value="5">
         <button onclick="generateFields()">Generate Fields</button>
+        
         <table id="subjectTable">
             <tr>
                 <th>Subject</th>
@@ -55,54 +20,16 @@
                 <th>Credits</th>
             </tr>
         </table>
+        
         <button onclick="calculateCGPA()">Calculate CGPA</button>
         <h3>Your CGPA: <span id="cgpaResult">0</span></h3>
     </div>
     
-    <script>
-        function generateFields() {
-            let numSubjects = document.getElementById("numSubjects").value;
-            let table = document.getElementById("subjectTable");
-            table.innerHTML = `
-                <tr>
-                    <th>Subject</th>
-                    <th>Grade</th>
-                    <th>Credits</th>
-                </tr>
-            `;
-            for (let i = 1; i <= numSubjects; i++) {
-                let row = table.insertRow();
-                row.innerHTML = `
-                    <td>Subject ${i}</td>
-                    <td>
-                        <select class="grade">
-                            <option value="10">O</option>
-                            <option value="9">A+</option>
-                            <option value="8">A</option>
-                            <option value="7">B+</option>
-                            <option value="6">B</option>
-                            <option value="5">C</option>
-                            <option value="0">F</option>
-                        </select>
-                    </td>
-                    <td><input type="number" class="credit" min="1" max="5" value="3"></td>
-                `;
-            }
-        }
+    <footer>
+        Developed by <strong>Subadevan C</strong> | 
+        <a href="https://www.linkedin.com/in/subadevan" target="_blank">LinkedIn</a>
+    </footer>
 
-        function calculateCGPA() {
-            let grades = document.getElementsByClassName("grade");
-            let credits = document.getElementsByClassName("credit");
-            let totalGradePoints = 0, totalCredits = 0;
-            for (let i = 0; i < grades.length; i++) {
-                let grade = parseFloat(grades[i].value);
-                let credit = parseFloat(credits[i].value);
-                totalGradePoints += grade * credit;
-                totalCredits += credit;
-            }
-            let cgpa = (totalGradePoints / totalCredits).toFixed(2);
-            document.getElementById("cgpaResult").innerText = cgpa;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
